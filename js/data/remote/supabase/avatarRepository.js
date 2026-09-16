@@ -2,6 +2,8 @@ import { MemberCatalogStorage } from "../../local/memberCatalogStorage.js";
 import { ServerConfigurationStore } from "../../local/serverConfigurationStore.js";
 import { SupabaseApi } from "./supabaseApi.js";
 import { createStorageAssetUrl, revokeStorageAssetUrl } from "./storageAsset.js";
+import { httpRequest } from "../../../core/network/httpClient.js";
+import { AVATAR_SUPABASE_ANON_KEY, AVATAR_SUPABASE_URL } from "../../../config.js";
 
 const AVATAR_BUCKET = "avatars";
 const MEMBER_AVATAR_BUCKET = "membership-profile-avatars";
@@ -47,7 +49,24 @@ function avatarImageUrl(storagePath = "") {
   if (configuredBaseUrl) {
     return `${configuredBaseUrl}/${normalizedPath}`;
   }
-  return `${String(configuration.backendUrl || "").replace(/\/+$/, "")}/storage/v1/object/public/${AVATAR_BUCKET}/${normalizedPath}`;
+  const fallbackBaseUrl = AVATAR_SUPABASE_URL || configuration.backendUrl;
+  return `${String(fallbackBaseUrl || "").replace(/\/+$/, "")}/storage/v1/object/public/${AVATAR_BUCKET}/${normalizedPath}`;
+}
+
+function fetchAvatarCatalogRpc() {
+  if (!AVATAR_SUPABASE_URL) {
+    return SupabaseApi.rpc("get_avatar_catalog", {}, false);
+  }
+  return httpRequest(`${AVATAR_SUPABASE_URL.replace(/\/+$/, "")}/rest/v1/rpc/get_avatar_catalog`, {
+    method: "POST",
+    headers: {
+      apikey: AVATAR_SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${AVATAR_SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json"
+    },
+    includeSessionAuth: false,
+    body: JSON.stringify({})
+  });
 }
 
 function mapAvatar(row = {}) {
@@ -182,7 +201,7 @@ async function hydrateStoredMemberCatalog() {
 }
 
 async function fetchStandardAvatarCatalog(generation = catalogGeneration) {
-  const response = await SupabaseApi.rpc("get_avatar_catalog", {}, false);
+  const response = await fetchAvatarCatalogRpc();
   if (generation !== catalogGeneration) {
     return [];
   }

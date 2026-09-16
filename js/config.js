@@ -24,6 +24,8 @@ export const MDBLIST_API_BASE_URL = String(
   runtimeEnv.MDBLIST_API_BASE_URL || "https://api.mdblist.com/"
 ).trim();
 export const AVATAR_PUBLIC_BASE_URL = String(runtimeEnv.AVATAR_PUBLIC_BASE_URL || "").trim();
+export const AVATAR_SUPABASE_URL = String(runtimeEnv.AVATAR_SUPABASE_URL || "").trim();
+export const AVATAR_SUPABASE_ANON_KEY = String(runtimeEnv.AVATAR_SUPABASE_ANON_KEY || "").trim();
 export const UNIQUE_CONTRIBUTIONS_BASE_URL = String(
   runtimeEnv.UNIQUE_CONTRIBUTIONS_BASE_URL || ""
 ).trim();

@@ -39,6 +39,12 @@
         : existing.IMDB_TAPFRAME_API_BASE_URL,
     AVATAR_PUBLIC_BASE_URL:
       typeof existing.AVATAR_PUBLIC_BASE_URL === "undefined" ? "" : existing.AVATAR_PUBLIC_BASE_URL,
+    AVATAR_SUPABASE_URL:
+      typeof existing.AVATAR_SUPABASE_URL === "undefined" ? "" : existing.AVATAR_SUPABASE_URL,
+    AVATAR_SUPABASE_ANON_KEY:
+      typeof existing.AVATAR_SUPABASE_ANON_KEY === "undefined"
+        ? ""
+        : existing.AVATAR_SUPABASE_ANON_KEY,
     UNIQUE_CONTRIBUTIONS_BASE_URL:
       typeof existing.UNIQUE_CONTRIBUTIONS_BASE_URL === "undefined"
         ? ""
