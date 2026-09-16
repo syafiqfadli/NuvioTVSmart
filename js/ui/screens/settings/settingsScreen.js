@@ -7386,7 +7386,7 @@ export const SettingsScreen = {
             wrapperClass: "settings-about-wordmark"
           })}
           <p class="settings-about-copy">${t("settings.about.madeWithLove")}</p>
-          <p class="settings-about-copy">${t("settings.about.version", { version: SETTINGS_VERSION_LABEL })}</p>
+          <p class="settings-about-copy">${t("settings.about.version", { version: SETTINGS_VERSION_LABEL })} · By Frigora</p>
           <p class="settings-about-copy">${t("settings.about.portedBy")}</p>
         </div>
         <div class="settings-stack">
